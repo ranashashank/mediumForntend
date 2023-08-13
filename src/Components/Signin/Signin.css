@@ -1,0 +1,33 @@
+.signin{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 20px;
+    margin-top: 30px;
+}
+
+.error{
+    color: red;
+}
+
+.signin  label{
+    font-size: 24px;
+    padding: 10px;
+}
+.signin input{
+    width: 500px;
+    height: 25px;
+    font-size: 18px;
+}
+
+.signin  button{
+    font-size: 18px;
+    margin: 20px;
+}
+
+.field{
+    margin: 10px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}

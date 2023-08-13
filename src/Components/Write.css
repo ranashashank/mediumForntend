@@ -1,0 +1,48 @@
+/* Write.css */
+
+.write-container {
+    width: 80%;
+    margin: 0 auto;
+    padding: 20px;
+    border: 1px solid #ccc;
+    background-color: #f9f9f9;
+  }
+  
+  .write-field {
+    margin-bottom: 20px;
+  }
+  
+  .write-field label {
+    display: block;
+    font-weight: bold;
+  }
+  
+  .write-field input[type="text"],
+  .write-field textarea {
+    width: 100%;
+    padding: 8px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    font-size: 16px;
+  }
+  
+  .write-field .write-error {
+    color: red;
+    font-size: 12px;
+  }
+  
+  .write-field button {
+    padding: 10px 20px;
+    font-size: 16px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    margin-right: 10px;
+    background-color: #007bff;
+    color: white;
+  }
+  
+  .write-field button:last-child {
+    background-color: #28a745;
+  }
+  
