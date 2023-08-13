@@ -3,7 +3,7 @@ import { Link,Outlet,useNavigate } from "react-router-dom";
 import Write from "./Write";
 import axios from "axios";
 
-const Mypost=(props)=>{
+const MyPosts=(props)=>{
 
     const navigate=useNavigate();
     const [create,setCreate]=useState(false);
@@ -85,13 +85,9 @@ setMypost([...temp]);
    
     const myDraft=()=>{
         let ele=document.getElementById("your_draft");
-        if(ele.style.display=="block")
-        {
-            ele.style.display="none"
-        }
-        else 
-        {
-            ele.style.display="block"
+        if(ele.style.display=="block")  {
+            ele.style.display="none" }    else {
+  ele.style.display="block"
         }
         
 
@@ -269,13 +265,9 @@ const editdraft=(id)=>{
 }
     return(
         <div>
-            <button onClick={()=>{setCreate(!create)}} className="create_new">Create New</button>
-            <button onClick={()=>{myDraft()}} className="create_new">My Drafts</button>
-            <button onClick={()=>{navigate('/mylibrary')}} className="create_new">My library</button>
+            <button onClick={()=>{setCreate(!create)}} className="create_new">Add Post</button>
+            <button onClick={()=>{myDraft()}} className="create_new">Drafts</button>
            
-            <div id="lists">
-
-            </div>
             {create?<Write setCreate={setCreate} mypost={mypost} setMypost={setMypost}  />:null}
             <div>
             <div  id="your_draft" style={{display:"none"}}>
@@ -303,11 +295,11 @@ const editdraft=(id)=>{
                        
                         mypost.map((values,idx)=>{
                             return <li id={values.id} className="list_post" key={idx}>
-                                <h3>{values.title}</h3>
-                                <h4 >Topic: <span >{values.topic.name}</span></h4>
+                               <Link to={`/post/${values.id}`} className="link"><h3>{values.title}</h3>
+                               </Link>  <h4 >Topic: <span >{values.topic.name}</span></h4>
                                 <img src={values.image_url} height={300} width={400}></img>
                                 <input style={{display:"none"}} type="file" accept="image/*" />
-                                <p>{values.text}</p>
+                                <p>{values.text.substr(0, 100)}</p>
                                 <p>Likes: {values.likes}</p>
                                 <p>Comments: {values.comments}</p>
                                 <p>Views: {values.views}</p>
@@ -325,4 +317,4 @@ const editdraft=(id)=>{
     )
 }
 
-export default Mypost;
+export default MyPosts;

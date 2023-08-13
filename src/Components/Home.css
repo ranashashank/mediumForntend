@@ -1,0 +1,22 @@
+/* Add this CSS to your stylesheet or component */
+.post-item {
+    display: flex;
+    padding: 10px;
+    border-bottom: 2px solid black;
+  }
+  
+  .content {
+    flex: 1;
+    padding: 10px;
+  }
+  
+  .image {
+    flex: 1;
+    display: flex;
+    justify-content: flex-end;
+    align-items: flex-start;
+  }
+  a{
+    text-decoration: none;
+    color: black;
+  }

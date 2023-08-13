@@ -45,7 +45,7 @@ const navigate=useNavigate();
     console.error('Error:', error);
     if(error=="Sign up or login")
     {
-        navigate('/signin');
+        navigate('/login');
     }
   });
           }

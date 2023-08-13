@@ -3,6 +3,7 @@ import { Link,Outlet, json, useNavigate } from "react-router-dom";
 import { useEffect, useState } from "react";
 
 import axios from "axios";
+import "./Home.css"
 
 
 const Home = (props) => {
@@ -56,18 +57,18 @@ const Home = (props) => {
       navigate('/Topiclist');
     }
     const Search=()=>{
-      let temp=posts;
-      const str=document.getElementById("idSearch").value.toLowerCase();
+      let temp2=posts;
+      const strQ=document.getElementById("idSearch").value.toLowerCase();
       
-      if(str=="")
+      if(strQ=="")
       {
         setShowPosts(posts);
         return ;
       }
-
-      let temp1=temp.filter((val)=>{
+   console.log(posts)
+      let temp=temp2.filter((val)=>{
         console.log(val);
-        return (val.text.toLowerCase().includes(str)|| val.title.toLowerCase().includes(str) || val.author.toLowerCase().includes(str) || val.topic.toLowerCase().includes(str) );
+        return (val.text.toLowerCase().includes(strQ)|| val.title.toLowerCase().includes(strQ) || val.author.toLowerCase().includes(strQ) || val.topic.toLowerCase().includes(strQ) );
       })
      
       setShowPosts([...temp]);
@@ -77,8 +78,7 @@ const Home = (props) => {
       const filterByLikes=()=>{
         let temp2=posts;
         temp2.sort((a,b)=>{
-          if(a.likes.length>b.likes.length) return -1;
-          return 1;
+          return b.likes.length>a.likes.length
         })
       
         setShowPosts([...temp2]);
@@ -109,15 +109,11 @@ const Home = (props) => {
 
   }
   const allSavedpost=()=>{
-    
     if(props.authorization=="")
     {
       navigate("/login")
     }
     {
-
-    
-
     axios.get('http://127.0.0.1:3000/profile',{
       headers:{
         Authorization:localStorage.Authorization
@@ -137,8 +133,6 @@ const Home = (props) => {
          }
       }
       setShowPosts([...saved]);
-      
-
     })
     .catch((err)=>{
       console.log(err);
@@ -203,33 +197,62 @@ const Home = (props) => {
      
       
       <div>
-        
         {
           showPosts.map((post,idx)=>{
             console.log(post);
-            return <div className="post" key={post.id} style={{borderBottom:"2px solid black"}}>
-                <div className="left">
-                
-                <Link to={`/post/${post.id}`} className="link"><h2 className="title">Title:{post.title}</h2></Link>
-                <p className="author">{post.author}</p>
-                <Link to={`/post/${post.id}`} className="link"><p className="text">Text:{post.text.substr(0,100)}</p></Link>
-                <div className="lower">
-                <p className="date">Date:{post.created_at.substr(0,10)}</p>
-                <p className="topic">Topic:{post.topic}</p>
-                <p>Reading Time: {post.reading_time_minute} minutes</p>
-                <p>Likes:{post.likes.length}</p>
-                <p>Views:{post.views}</p>
-                
-                <button onClick={()=>{savedForLater(post)}}> Save for later</button>
-                <button onClick={()=>{morePost(post.author)}} className="back">More Post By Similar Author</button>
+            return (
+              <div
+                className="post-item"
+                key={post.id}
+                style={{ borderBottom: "2px solid black" }}
+              >
+                <div className="content">
+                  <Link to={`/post/${post.id}`} className="link">
+                    <h2 className="title">{post.title}</h2>
+                  </Link>
+                  <p className="author">Author: {post.author}</p>
+                  <Link to={`/post/${post.id}`} className="link">
+                    <p className="text">{post.text.substr(0, 100)}</p>
+                  </Link>
+                  <div className="lower">
+                    <p className="date">Date: {post.created_at.substr(0, 10)}</p>
+                    <p className="topic">Topic: {post.topic}</p>
+                    <p>Reading Time: {post.reading_time_minute} minutes</p>
+                    <p>Likes: {post.likes.length}</p>
+                    <p>Views: {post.views}</p>
+  
+                    <button
+                      onClick={() => {
+                        savedForLater(post);
+                      }}
+                      id="btn-save"
+                    >
+                      Save for later
+                    </button>
+                    <button
+                      onClick={() => {
+                        morePost(post.author);
+                      }}
+                      className="back"
+                    >
+                      More Posts By Similar Author
+                    </button>
+                  </div>
                 </div>
+  
+                <div className="image">
+                  <Link to={`/post/${post.id}`}>
+                    <img
+                      src={post.image_url}
+                      width={200}
+                      height={150}
+                      style={{ width: "100%", height: "auto", marginTop: "10px" }}
+                    ></img>
+                  </Link>
                 </div>
-                
-                 <Link to={`/post/${post.id}`}> <img src={post.image_url} width={200} height={150} ></img></Link>
-                
               </div>
-          })
-        }
+            );
+          })}
         </div>     
     </div>
   );

@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import { useParams,useNavigate, Link } from "react-router-dom";
 import axios from "axios";
+import "./PostDetails.css"
 
 const PostDetails=(props)=>{
 
@@ -74,26 +75,11 @@ const PostDetails=(props)=>{
                         console.log(error);
                         if(error=="Sign up or login")
                         {
-                            navigate('/signin');
+                            navigate('/login');
                         }
                     })
 
-        fetch(`http://127.0.0.1:3000/my_lists`, {
-            headers: {
-              'Authorization':localStorage.Authorization
-              }
-            })
-        .then(response => {
-        return response.json()} )
-        .then(response => {
-        setLists([...response]);
-
-        
-        })
-        .catch(error => {
-        console.error('Error:', error);
-        });
-
+       
     }
     
 },[temp])
@@ -130,12 +116,8 @@ const toggleLike=()=>{
 
 }
 
-const morePost=()=>{
-    console.log(data[0].author)
-    navigate(`/Similarpost/${data[0].author}`);
-}
 
-const Follow=()=>{
+const followUser=()=>{
     const ele=document.getElementById("follow");
     console.log(data);
     if(data[0].author===username){
@@ -163,14 +145,14 @@ const Follow=()=>{
                         console.log(error);
                     })
        
-            ele.innerHTML="Following"
+           
   
 }
 
 
 
 
-const Comment_post=()=>{
+const AddComment=()=>{
   
     axios.post('http://127.0.0.1:3000/comment',{
         id:id,
@@ -193,57 +175,63 @@ const Comment_post=()=>{
 
     return (
         <div>
-           {/* <button onClick={()=>navigate(-1)} className="back">Back</button> */}
+         
            
            {
              data.map((post,idx)=>{
-                return <div key={idx}>
-                    <div className="post_id">
-                <h1 className="post_title">Post Title:{" "}{post.title}</h1>
-               
-                <img src={post.image_url} width={680} height={380} ></img>
-                <p className="post_text">Post Text:{" "}{post.text}</p>
-                <p className="post_topic">Post Topic:{" "}{post.topic}</p>
+                return  <div key={idx} className="post-details">
+                <div className="post-header">
+                  <h1 className="post-title">Post Title: {post.title}</h1>
+                  <img src={post.image_url} width={680} height={380} alt={post.title} className="post-image" />
+                  <p className="post-text">Post Text: {post.text}</p>
+                  <p className="post-topic">Post Topic: {post.topic}</p>
                 </div>
-                <div className="like_view">
-                <button id="like" onClick={()=>{toggleLike()}} style={liked?{background:"red",color:"white"}:{background:"white",color:"black"}}  className="like">Like</button>
-                <span className="show_count">{post.likes.length}</span>
-                {/* <button id="comment">Comments</button>
-                <span className="show_count">{post.comments.length}</span> */}
-                <button id="views">Views</button>
-                <span className="show_count">{post.views}</span>
-                <p className="post_author">
+                <div className="post-interactions">
+                  <button
+                    id="like"
+                    onClick={toggleLike}
+                    className={liked ? "like-button liked" : "like-button"}
+                  >
+                    Like
+                  </button>
+                  <span className="show-count">{post.likes.length}</span>
+                  {/* <button id="comment">Comments</button>
+                  <span className="show-count">{post.comments.length}</span> */}
+                  <button id="views">Views</button>
+                  <span className="show-count">{post.views}</span>
+                  <p className="post-author">
                     <Link to={`/authorProfile/${post.author}`}>{post.author}</Link>
-                    <button className="follow" id="follow" onClick={()=>{Follow()}}>
-                        {following?"Following":"Follow"}
-                        </button>
-                        </p>
-                <h3>Comments :{comments.length}</h3>
-                {
-                    comments.map((val)=>{
-                        return <div>
-                            {val.user}: {val.comment}
-                        </div>
-                    })
-                }
+                    <button
+                      className={following ? "follow-button following" : "follow-button"}
+                      onClick={followUser}
+                    >
+                      {following ? "Following" : "Follow"}
+                    </button>
+                  </p>
+                  <h3>Comments: {comments.length}</h3>
+                  {comments.map((val, index) => {
+                    return (
+                      <div key={index}>
+                        {val.user}: {val.comment}
+                      </div>
+                    );
+                  })}
                 </div>
-                
-                <div style={{display:"flex",flexDirection:"column",alignItems:"center"}}>
-                <textarea rows="4" cols="50" id="comment_val" placeholder="Comment here..." onChange={(e)=>{setComment(e.target.value)}} value={comment}></textarea>
-                <button onClick={()=>{Comment_post()}}>Submit</button>
+                <div className="comment-box">
+                  <textarea
+                    rows="4"
+                    cols="50"
+                    id="comment_val"
+                    placeholder="Comment here..."
+                    onChange={(e) => setComment(e.target.value)}
+                    value={comment}
+                  ></textarea>
+                  <button onClick={AddComment}>Submit</button>
                 </div>
-                </div>
+              </div>
              })
            }
-            <div style={{margin:"20px",display:"flex"}}>
-                <h4 style={{margin:"5px"}}>Add to your library</h4>
-                {
-                lists.map((list,idx)=>{
-                    return <button key={idx} onClick={()=>{addtolist(list.id)}} id={list.id}>{list.name}</button>
-                })
-            }
-            </div>
-        
+            
         
         </div>
     )
