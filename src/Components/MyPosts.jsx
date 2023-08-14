@@ -295,7 +295,7 @@ const editdraft=(id)=>{
                               <p className="draft-text">{values.text}</p>
                               <button className="edit-button" onClick={() => { editdraft(values.id) }}>Edit</button>
                               <button className="delete-button" onClick={() => { deletedraft(values.id) }}>Delete</button>
-                              <button className="post-button" onClick={() => { postdraft(values.id) }}>Post Online</button>
+                              <button className="post-button" onClick={() => { postdraft(values.id) }}>Upload</button>
                             </div>
                           </li>
                           

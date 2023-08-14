@@ -77,7 +77,7 @@ const Home = (props) => {
       const filterByLikes=()=>{
         let temp2=posts;
         temp2.sort((a,b)=>{
-          return b.likes.length>a.likes.length
+          return b.likes.length-a.likes.length
         })
       
         setShowPosts([...temp2]);

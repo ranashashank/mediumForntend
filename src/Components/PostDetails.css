@@ -24,7 +24,6 @@
   
   .post-image {
     width: 100%;
-    max-height: 400px;
     object-fit: cover;
     border-radius: 4px;
     margin-bottom: 10px;
