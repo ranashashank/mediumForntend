@@ -107,6 +107,7 @@ setMypost([...temp]);
 
 
     const Edit=(id)=>{
+      
 
         let title=document.getElementById(id).children[0];
         let topic=document.getElementById(id).children[1].children[0];
@@ -115,16 +116,26 @@ setMypost([...temp]);
         let img=document.getElementById(id).children[3]
         document.getElementById(id).children[2].style.display="none";
         img.style.display="block";
-        // console.log(title,text,topic,btn);
         
+        if (btn.innerHTML === "Edit") {
+            if (title.tagName.toLowerCase() === "a") {
+              title.dataset.originalHref = title.getAttribute("href");
+              title.removeAttribute("href");
+            }
+        }   
         if(btn.innerHTML=="Edit")
         {
+            if (title.tagName.toLowerCase() === "a") {
+
+                title.dataset.originalHref = title.getAttribute("href");
+                title.removeAttribute("href");
+              }
             topic.contentEditable=true;
             title.contentEditable=true;
             text.contentEditable=true;
-            text.style.border="2px solid black";
-            topic.style.border="2px solid black";
-            title.style.border="2px solid black";
+            text.style.border="1px solid black";
+            topic.style.border="1px solid black";
+            title.style.border="1px solid black";
            
             btn.innerHTML="Update";
         }
@@ -157,6 +168,11 @@ setMypost([...temp]);
             text.style.border="white";
             topic.style.border="white";
             title.style.border="white";
+
+            if (title.tagName.toLowerCase() === "a" && title.dataset.originalHref) {
+                title.setAttribute("href", title.dataset.originalHref);
+                delete title.dataset.originalHref;
+              }
             btn.innerHTML="Edit";
             document.getElementById(id).children[2].style.display="block";
         }
@@ -292,7 +308,7 @@ const editdraft=(id)=>{
                     {
                        
                         mypost.map((values,idx)=>{
-                            return( <MyPostItem key={idx} values={values} Edit={Edit} Delete={Delete} />)
+                            return( <MyPostItem key={idx} idx={idx} values={values} Edit={Edit} Delete={Delete} />)
                         })
 
                     }

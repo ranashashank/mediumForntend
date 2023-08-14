@@ -7,7 +7,6 @@ const Signout = (props) => {
 
     if(props.authorization=="")
     {
-       
         navigate('/login');
     }
     else
