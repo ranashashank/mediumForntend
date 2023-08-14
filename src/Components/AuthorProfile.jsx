@@ -14,7 +14,7 @@ const AuthorProfile=(props)=>{
         if(!localStorage.hasOwnProperty('Authorization'))
         {
            
-            navigate('/signin');
+            navigate('/login');
         }
         else
         {
