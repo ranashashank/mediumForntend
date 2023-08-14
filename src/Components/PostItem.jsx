@@ -1,9 +1,9 @@
 
 import React from "react";
 import { Link } from "react-router-dom";
-import "./PostItem.css"; // Import the CSS file for styling
+import "./PostItem.css"; 
 
-const PostItem = ({ post, savedForLater, morePost, removeS}) => {
+const PostItem = ({ post, savedForLater, morePost, removeS,disable}) => {
   return (
     <div className="post-item" key={post.id}>
       <div className="content">
@@ -20,7 +20,7 @@ const PostItem = ({ post, savedForLater, morePost, removeS}) => {
           <p>Reading Time: {post.reading_time_minute} minutes</p>
           <p>Likes: {post.likes.length}</p>
           <p>Views: {post.views}</p>
-
+    
          { removeS?(<button
             onClick={() => {
               savedForLater(post);

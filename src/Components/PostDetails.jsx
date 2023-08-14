@@ -172,16 +172,25 @@ const AddComment=()=>{
     })
 }
 
-
+const morePost=(author)=>{
+  navigate(`/postsSimilar/${author}`);
+}
     return (
         <div>
          
-           
+        
            {
              data.map((post,idx)=>{
-                return  <div key={idx} className="post-details">
+
+                return (  
+                <div key={idx} className="post-details">
                 <div className="post-header">
+                <button
+                  onClick={() => {
+                    morePost(post.author);
+                  }}>More Post By Author</button>
                   <h1 className="post-title">Post Title: {post.title}</h1>
+                  <p>Reading Time: {post.reading_time_minute} minutes</p>
                   <img src={post.image_url} width={680} height={380} alt={post.title} className="post-image" />
                   <p className="post-text">Post Text: {post.text}</p>
                   <p className="post-topic">Post Topic: {post.topic}</p>
@@ -195,8 +204,7 @@ const AddComment=()=>{
                     Like
                   </button>
                   <span className="show-count">{post.likes.length}</span>
-                  {/* <button id="comment">Comments</button>
-                  <span className="show-count">{post.comments.length}</span> */}
+                  
                   <button id="views">Views</button>
                   <span className="show-count">{post.views}</span>
                   <p className="post-author">
@@ -228,7 +236,7 @@ const AddComment=()=>{
                   ></textarea>
                   <button onClick={AddComment}>Submit</button>
                 </div>
-              </div>
+              </div>)
              })
            }
             
