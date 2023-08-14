@@ -3,7 +3,7 @@ import { useNavigate } from "react-router-dom";
 
 const Pay=(props)=>{
   const navigate=useNavigate();
- const [val,setVal]=useState(100);
+ const [val,setVal]=useState(200);
 
  useEffect(()=>{
     if(props.authorization=="")
