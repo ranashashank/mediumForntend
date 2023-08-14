@@ -40,6 +40,17 @@ const Navbar = (props) => {
                 My Profile
               </Link>
             )}
+            {props.authorization && (
+              <Link to={"/Topiclist"} className="btn">
+                Topic List
+              </Link>
+            )}
+            {props.authorization && (
+              <Link to="/savedPost" className="btn">
+              Saved
+           </Link>
+            )}
+             
           </div>
         </div>
       </div>

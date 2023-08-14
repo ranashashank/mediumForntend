@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import { Link,Outlet,useNavigate } from "react-router-dom";
 import Write from "./Write";
 import axios from "axios";
+import MyPostItem from "./MyPostItem";
 
 const MyPosts=(props)=>{
 
@@ -83,29 +84,25 @@ setMypost([...temp]);
     }
 
    
-    const myDraft=()=>{
-        let ele=document.getElementById("your_draft");
-        if(ele.style.display=="block")  {
-            ele.style.display="none" }    else {
-  ele.style.display="block"
-        }
-        
-
+    const myDraft = () => {
+        const draft = document.getElementById("your_draft");
+        draft.style.display = draft.style.display === "block" ? "none" : "block";
+      
         fetch("http://127.0.0.1:3000/my_drafts", {
-    headers: {
-      'Authorization':localStorage.Authorization
+          headers: {
+            Authorization: localStorage.Authorization,
+          },
+        })
+          .then((response) => response.json())
+          .then((data) => {
+            console.log(data);
+            setMydraft(data);
+          })
+          .catch((error) => {
+            console.error('Error:', error);
+          });
       }
-    })
-.then(response => {
-return response.json()} )
-.then(data => {
-console.log(data);
-setMydraft([...data]);
-})
-.catch(error => {
-console.error('Error:', error);
-});
-    }
+      
 
 
 
@@ -275,16 +272,17 @@ const editdraft=(id)=>{
                     <ol>
                     {
                         mydraft.map((values,idx)=>{
-                            return <li id={`draft_${values.id}`} key={idx}>
-                                <div>
-                                <h3>Title: <span>{values.title}</span></h3>
-                                <h4 >Topic: <span >{values.topic}</span></h4>
-                                <p>{values.text}</p>
-                                <button onClick={()=>{editdraft(values.id)}}>Edit</button>
-                                <button onClick={()=>{deletedraft(values.id)}}>Delete</button>
-                                <button onClick={()=>{postdraft(values.id)}}>Post Online</button>
-                                </div>
-                                </li>
+                            return <li id={`draft_${values.id}`} key={idx} className="draft-item">
+                            <div>
+                              <h3 className="draft-title">Title: <span>{values.title}</span></h3>
+                              <h4 className="draft-topic">Topic: <span>{values.topic}</span></h4>
+                              <p className="draft-text">{values.text}</p>
+                              <button className="edit-button" onClick={() => { editdraft(values.id) }}>Edit</button>
+                              <button className="delete-button" onClick={() => { deletedraft(values.id) }}>Delete</button>
+                              <button className="post-button" onClick={() => { postdraft(values.id) }}>Post Online</button>
+                            </div>
+                          </li>
+                          
                         })
                     }
                     </ol>
@@ -294,20 +292,7 @@ const editdraft=(id)=>{
                     {
                        
                         mypost.map((values,idx)=>{
-                            return <li id={values.id} className="list_post" key={idx}>
-                               <Link to={`/post/${values.id}`} className="link"><h3>{values.title}</h3>
-                               </Link>  <h4 >Topic: <span >{values.topic.name}</span></h4>
-                                <img src={values.image_url} height={300} width={400}></img>
-                                <input style={{display:"none"}} type="file" accept="image/*" />
-                                <p>{values.text.substr(0, 100)}</p>
-                                <p>Likes: {values.likes}</p>
-                                <p>Comments: {values.comments}</p>
-                                <p>Views: {values.views}</p>
-                                <div>
-                                    <button onClick={()=>{Edit(values.id)}}>Edit</button>
-                                    <button onClick={()=>{Delete(values.id)}}>Delete</button>
-                                </div>
-                            </li>
+                            return( <MyPostItem key={idx} values={values} Edit={Edit} Delete={Delete} />)
                         })
 
                     }

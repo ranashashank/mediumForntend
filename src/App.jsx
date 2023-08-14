@@ -13,6 +13,7 @@ import MyPosts from "./Components/MyPosts";
 import AuthorProfile from "./Components/AuthorProfile";
 import PostSimilarAuthor from "./Components/PostSimilarAuthor";
 import Topiclist from "./Components/TopicList";
+import SavedPost from "./Components/SavedPost";
 
 
 const App = () => {
@@ -40,7 +41,7 @@ const App = () => {
        {path:'/authorProfile/:username', element:<AuthorProfile  authorization={authorization} setAuthorization={setAuthorization} />},
         {path:'/postsSimilar/:author', element:<PostSimilarAuthor authorization={authorization} setAuthorization={setAuthorization}/>},
         {path:'/TopicList', element:<Topiclist authorization={authorization} setAuthorization={setAuthorization}/>},
-       
+        {path:'/savedPost', element:<SavedPost authorization={authorization} setAuthorization={setAuthorization}/>},
       ],
     },
   ]);

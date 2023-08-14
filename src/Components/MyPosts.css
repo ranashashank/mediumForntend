@@ -1,0 +1,43 @@
+.draft-item {
+    list-style: none;
+    border: 1px solid #ccc;
+    padding: 10px;
+    margin: 10px;
+    background-color: #f5f5f5;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+  
+  .draft-title {
+    font-size: 18px;
+  }
+  
+  .draft-topic {
+    font-size: 16px;
+  }
+  
+  .draft-text {
+    font-size: 14px;
+  }
+  
+  .edit-button,
+  .delete-button,
+  .post-button {
+    background-color: #3498db;
+    color: white;
+    border: none;
+    padding: 5px 10px;
+    margin: 5px;
+    cursor: pointer;
+  }
+  
+  .edit-button:hover,
+  .delete-button:hover,
+  .post-button:hover {
+    background-color: #2980b9;
+  }
+  
+
+
+ 

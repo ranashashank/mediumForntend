@@ -1,0 +1,47 @@
+/* PostSimilarAuthor.css */
+
+.post {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+    padding: 20px;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.content {
+    flex: 1;
+    padding-right: 20px;
+}
+
+.image {
+    flex: 0;
+}
+
+.author {
+    font-size: 14px;
+    color: #555;
+}
+
+.title {
+    font-size: 24px;
+    margin: 10px 0;
+    color: #333;
+}
+
+.text {
+    font-size: 16px;
+    color: #777;
+}
+
+.date {
+    font-size: 14px;
+    color: #999;
+}
+
+.topic {
+    font-size: 16px;
+    color: #007bff;
+}

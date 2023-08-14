@@ -4,6 +4,7 @@ import { useEffect, useState } from "react";
 
 import axios from "axios";
 import "./Home.css"
+import PostItem from "./PostItem";
 
 
 const Home = (props) => {
@@ -12,7 +13,7 @@ const Home = (props) => {
   const [showPosts,setShowPosts]=useState([]);
   const [toggleSave,setToggleSave]=useState(false);
     useEffect(()=>{
-        fetch('http://127.0.0.1:3000/?page=1&books_per_page=100').then((response)=>{
+        fetch('http://127.0.0.1:3000/?page=1&books_per_page=1000').then((response)=>{
         return response.json();
         }).then((data)=>{
           console.log(data);
@@ -53,9 +54,7 @@ const Home = (props) => {
         }
         
     }
-    const Topiclist=()=>{
-      navigate('/Topiclist');
-    }
+  
     const Search=()=>{
       let temp2=posts;
       const strQ=document.getElementById("idSearch").value.toLowerCase();
@@ -92,54 +91,24 @@ const Home = (props) => {
         setShowPosts([...temp2]);
       }
 
-  const filterByDate=()=>{
-  let str=document.getElementById("idDate").value;
-  if(str=="")
-  {
-    setShowPosts([...posts]);
-    return ;
-  }
-  str=new Date(str);
-  let temp=posts.filter((val)=>{
-    let x=new Date(val.created_at);
-    return x>=str;
-  })
- 
-  setShowPosts([...temp]);
+      const filterByDate = () => {
+        const selectedDate = new Date(document.getElementById("idDate").value);
+      
+        if (isNaN(selectedDate)) {
+          // Invalid date input, show all posts
+          setShowPosts([...posts]);
+          return;
+        }
+      
+        const filteredPosts = posts.filter((post) => {
+          const postDate = new Date(post.created_at);
+          return postDate >= selectedDate;
+        });
+      
+        setShowPosts(filteredPosts);
+      };
+      
 
-  }
-  const allSavedpost=()=>{
-    if(props.authorization=="")
-    {
-      navigate("/login")
-    }
-    {
-    axios.get('http://127.0.0.1:3000/profile',{
-      headers:{
-        Authorization:localStorage.Authorization
-      }
-    }).then((res)=>{
-      const saved = [];
-      console.log(res.data)
-     
-      for(let i=0;i<posts.length;i++)
-      {
-         for(let j=0;j<res.data.saved_posts.length;j++)
-         {
-          if(posts[i].id==res.data.saved_posts[j])
-          {
-            saved.push(posts[i]);
-          }
-         }
-      }
-      setShowPosts([...saved]);
-    })
-    .catch((err)=>{
-      console.log(err);
-    })
-
-  }
-  }
 
 
   const savedForLater=(post)=>{
@@ -169,31 +138,30 @@ const Home = (props) => {
   return (
     <div>
       
-      <div className="search_bar">
-        <input type="text" id="idSearch" placeholder="Search..." />
-        <button onClick={()=>{Search()}} id="search_btn">Search</button>
+      <div className="search_and_filter_container">
+  <div className="search_bar">
+    <input type="text" id="idSearch" placeholder="Search..." />
+    <button onClick={() => { Search() }} id="search_btn">Search</button>
+  </div>
+  <div className="filter_bar">
+    <div className="sort_buttons">
+      <label>Sort by</label>
+      <button onClick={() => { filterByLikes() }}>Likes</button>
+      <button onClick={() => { filterByViews() }}>Views</button>
+    </div>
+    {props.authorization && (
+      <div className="other_buttons">
+        <button onClick={() => { filterByViews() }}>Top Posts</button>
+        <button onClick={() => { Recommend() }}>Recommended Posts</button>
       </div>
-      <div className="filter_bar" >
-        <div>
-        <label>Sort by</label>
-        <button onClick={()=>{filterByLikes()}}>Likes</button>
-        <button onClick={()=>{filterByViews()}}>Views</button>
-        </div>
-       { props.authorization && (<div>
-       <button onClick={()=>{filterByViews()}}>Top Posts</button>
-        <button onClick={()=>{Recommend()}}>Recommended Posts</button>
-        <button onClick={()=>{Topiclist()}}>Topics List</button>
-        <button onClick={()=>{allSavedpost()}}>Saved Post</button>
-      
-        </div>
-        )
-        }
-        <div>
-        <label>Filter by</label>
-        <input type="date" id="idDate" onChange={()=>{filterByDate()}}/>
-        </div>
-        
-      </div>
+    )}
+    <div className="filter_by_date">
+      <label>Filter by</label>
+      <input type="date" id="idDate" onChange={() => { filterByDate() }} />
+    </div>
+  </div>
+</div>
+
      
       
       <div>
@@ -201,59 +169,16 @@ const Home = (props) => {
           showPosts.map((post,idx)=>{
             console.log(post);
             return (
-              <div
-                className="post-item"
-                key={post.id}
-                style={{ borderBottom: "2px solid black" }}
-              >
-                <div className="content">
-                  <Link to={`/post/${post.id}`} className="link">
-                    <h2 className="title">{post.title}</h2>
-                  </Link>
-                  <p className="author">Author: {post.author}</p>
-                  <Link to={`/post/${post.id}`} className="link">
-                    <p className="text">{post.text.substr(0, 100)}</p>
-                  </Link>
-                  <div className="lower">
-                    <p className="date">Date: {post.created_at.substr(0, 10)}</p>
-                    <p className="topic">Topic: {post.topic}</p>
-                    <p>Reading Time: {post.reading_time_minute} minutes</p>
-                    <p>Likes: {post.likes.length}</p>
-                    <p>Views: {post.views}</p>
-  
-                    <button
-                      onClick={() => {
-                        savedForLater(post);
-                      }}
-                      id="btn-save"
-                    >
-                      Save for later
-                    </button>
-                    <button
-                      onClick={() => {
-                        morePost(post.author);
-                      }}
-                      className="back"
-                    >
-                      More Posts By Similar Author
-                    </button>
-                  </div>
-                </div>
-  
-                <div className="image">
-                  <Link to={`/post/${post.id}`}>
-                    <img
-                      src={post.image_url}
-                      width={200}
-                      height={150}
-                      style={{ width: "100%", height: "auto", marginTop: "10px" }}
-                    ></img>
-                  </Link>
-                </div>
-              </div>
+              <PostItem
+              key={post.id}
+              post={post}
+              savedForLater={savedForLater}
+              morePost={morePost}
+            />
             );
           })}
-        </div>     
+        </div>   
+         
     </div>
   );
 };

@@ -1,0 +1,68 @@
+/* PostItem.css */
+
+.post-item {
+    display: flex;
+    align-items: center;
+    margin-bottom: 20px;
+    border: 1px solid #ccc;
+    padding: 10px;
+    background-color: #f7f7f7;
+  }
+  
+  .post-item .content {
+    flex: 1;
+    margin-right: 20px;
+  }
+  
+  .post-item .title {
+    font-size: 24px;
+    margin: 0;
+  }
+  
+  .post-item .author {
+    color: #666;
+    margin: 5px 0;
+  }
+  
+  .post-item .text {
+    font-size: 16px;
+    color: #333;
+  }
+  
+  .post-item .date {
+    color: #999;
+    margin: 5px 0;
+  }
+  
+  .post-item .topic {
+    color: #333;
+    margin: 5px 0;
+  }
+  
+  .post-item .lower {
+    margin-top: 10px;
+  }
+  
+  .post-item .btn-save,
+  .post-item .back {
+    background-color: #007bff;
+    color: #fff;
+    border: none;
+    padding: 5px 10px;
+    margin-right: 10px;
+    cursor: pointer;
+  }
+  
+  .post-item .btn-save:hover,
+  .post-item .back:hover {
+    background-color: #0056b3;
+  }
+  
+  .post-item .image img {
+    width: 200px;
+    height: 150px;
+  }
+  a{
+    text-decoration: none;
+    color: black;
+  }
