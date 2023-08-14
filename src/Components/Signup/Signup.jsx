@@ -67,7 +67,7 @@ const Signup = (props) => {
   };
 
   return (
-    <div>
+    <div style={{marginTop:"50px"}}>
       <form onSubmit={handleSubmit}>
         <div className='signin'>
           <div className='field'>

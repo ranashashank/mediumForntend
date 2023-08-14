@@ -1,7 +1,7 @@
 import './Signin.css';
 import { useEffect, useState } from 'react';
-import { useNavigate } from 'react-router-dom';
-import * as Yup from 'yup';
+import { Link, useNavigate } from 'react-router-dom';
+
 
 const Signin = (props) => {
   
@@ -72,7 +72,7 @@ const Signin = (props) => {
   };
 
   return (
-    <div>
+    <div style={{marginTop:"50px"}}>
       <form onSubmit={handleSubmit}>
         <div className="signin">
           <div className="field">
@@ -98,6 +98,7 @@ const Signin = (props) => {
             />
           </div>
           <button type="submit">SignIn</button>
+          <p>Don't have an account yet <Link to="/register">Sign Up!</Link></p>
           {errorSignIn !== '' ? <div className="error">{errorSignIn}</div> : null}
         </div>
       </form>
